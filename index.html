@@ -5,24 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Variance & Vanity</title>
     <style>
-        body { background-color: #fafafa; color: #222; font-family: -apple-system, sans-serif; margin: 0; line-height: 1.5; }
-        header { padding: 60px 20px 20px 20px; text-align: center; border-bottom: 3px solid #000; background: #fff; position: sticky; top: 0; z-index: 1000; }
-        h1 { font-size: 2em; letter-spacing: -1px; margin: 0; font-weight: 900; text-transform: uppercase; }
-        .tagline { font-size: 0.85em; color: #777; margin-top: 8px; font-style: italic; letter-spacing: 0.5px; }
-        .feed { max-width: 600px; margin: 40px auto; padding: 0 20px 100px 20px; }
-        .rant { margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid #eee; }
-        .rant-title { font-size: 1.5em; font-weight: 800; color: #000; margin-bottom: 10px; display: block; }
-        .rant-text { font-size: 1.1em; color: #444; }
-        .punchline { background-color: #000; color: #fff; padding: 2px 8px; font-weight: bold; display: inline-block; margin-top: 12px; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; }
+        :root {
+            --primary: #2d3436;
+            --accent: #fdcb6e; /* The Golden Yellow */
+            --bg: #f1f2f6;
+            --card: #ffffff;
+            --text: #2d3436;
+        }
+
+        body { 
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            color: var(--text); 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            min-height: 100vh;
+        }
+
+        header { 
+            padding: 80px 20px; 
+            text-align: center; 
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--accent);
+        }
+
+        h1 { font-size: 2.5em; letter-spacing: 2px; margin: 0; font-weight: 900; text-transform: uppercase; color: var(--primary); }
+        .tagline { font-size: 1em; color: #636e72; margin-top: 10px; font-weight: 300; }
+
+        .feed { 
+            max-width: 1000px; 
+            margin: 40px auto; 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 0 20px 100px 20px; 
+        }
+
+        .rant { 
+            background: var(--card);
+            padding: 30px; 
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .rant:hover { transform: translateY(-5px); }
+
+        .rant-title { font-size: 1.3em; font-weight: 800; color: #000; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
+        .rant-text { font-size: 1em; color: #444; flex-grow: 1; line-height: 1.6; }
         
-        /* Contact Form Styles */
-        .submit-section { background: #f0f0f0; padding: 30px; border-radius: 4px; margin-top: 60px; }
-        .submit-title { font-weight: 900; text-transform: uppercase; font-size: 0.9em; margin-bottom: 15px; display: block; }
-        textarea { width: 100%; height: 100px; border: 1px solid #ccc; padding: 10px; font-family: inherit; box-sizing: border-box; resize: none; border-radius: 4px; }
-        button { background: #000; color: #fff; border: none; padding: 12px 20px; margin-top: 10px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
-        button:hover { background: #333; }
-        
-        footer { padding: 40px; text-align: center; font-size: 0.7em; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .punchline { 
+            background-color: var(--accent); 
+            color: #000; 
+            padding: 5px 12px; 
+            font-weight: 700; 
+            display: inline-block; 
+            margin-top: 20px; 
+            font-size: 0.75em; 
+            text-transform: uppercase; 
+            border-radius: 4px;
+        }
+
+        /* Buttons & Forms */
+        .share-btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.7em;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .submit-section { 
+            background: var(--primary); 
+            color: white;
+            padding: 30px; 
+            border-radius: 12px;
+            grid-column: 1 / -1; /* Makes it full width */
+            text-align: center;
+        }
+
+        textarea { width: 100%; max-width: 500px; height: 80px; border-radius: 8px; border: none; padding: 15px; margin-top: 15px; font-family: inherit; }
+        .send-btn { background: var(--accent); color: black; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+
+        footer { padding: 60px; text-align: center; font-size: 0.8em; color: #636e72; background: rgba(255,255,255,0.5); margin-top: 50px; }
     </style>
 </head>
 <body>
@@ -33,69 +105,59 @@
     </header>
 
     <div class="feed">
-        
+
         <article class="rant">
             <span class="rant-title">The Adjective Tax</span>
             <div class="rant-text">
-                It is a fascinating piece of corporate theater: the way the same behavior is translated differently based on who is performing it. A man is assertive and he’s "closing the gap" or "showing grit." A woman uses the same tone, the same volume, and the same logic, and suddenly she’s "difficult," "aggressive," or "unapproachable." 
+                Men get promoted for 'strength'; women get penalized for lacking 'warmth.' Same behavior, different dictionary.
                 <br>
-                <span class="punchline">Men get promoted for 'strength'; women get penalized for lacking 'warmth.'</span>
+                <span class="punchline">Double standards are the corporate norm.</span>
             </div>
+            <button onclick="copyLink(this)" class="share-btn">🔗 Share Observation</button>
         </article>
-        
+
         <article class="rant">
             <span class="rant-title">The "Circle Back" Carousel</span>
             <div class="rant-text">
-                "Let’s circle back on that" is corporate-speak for "I hope we both die of old age before this topic comes up again." It is the ultimate ejector seat for uncomfortable questions. We aren’t circling back to anything; we are launching the problem into a deep-space orbit and hoping it never regains entry.
+                "Let’s circle back" is the ultimate ejector seat for uncomfortable questions. Launching the problem into deep-space orbit.
                 <br>
-                <span class="punchline">A circle has no end, which is exactly the point.</span>
+                <span class="punchline">A circle has no end.</span>
             </div>
-        </article>
-        
-        <article class="rant">
-            <span class="rant-title">The Monday Morning High-Five</span>
-            <div class="rant-text">
-                There is a specific type of professional vanity reserved for people who are "excited for the week ahead" at 9:00 AM on a Monday. We all know the coffee hasn’t even hit your bloodstream yet. You aren't "crushing it"; you’re just performing enthusiasm so the rest of us feel guilty about our third cup of caffeine and our silent contemplation of early retirement.
-                <br>
-                <span class="punchline">Optimism is fine, but please wait until Tuesday.</span>
-            </div>
+            <button onclick="copyLink(this)" class="share-btn">🔗 Share Observation</button>
         </article>
 
         <article class="rant">
-            <span class="rant-title">The Friday Afternoon "Gift"</span>
+            <span class="rant-title">Monday Morning Art</span>
             <div class="rant-text">
-                Receiving a high-priority request at 4:58 PM is a masterclass in corporate etiquette. It’s the sender clearing their conscience by cluttering yours. It’s a digital baton pass where the baton is on fire.
+                Performing enthusiasm at 9:00 AM should be a billable service. We know the coffee hasn't hit yet.
                 <br>
-                <span class="punchline">Efficiency is just someone else's problem.</span>
+                <span class="punchline">Optimism can wait until Tuesday.</span>
             </div>
-        </article>
-
-        <article class="rant">
-            <span class="rant-title">Mandatory Team Building</span>
-            <div class="rant-text">
-                Twenty adults eating lukewarm pizza in a windowless room playing "Icebreaker" games. We pretend to enjoy the "culture," but our only commonality is wanting to be anywhere else.
-                <br>
-                <span class="punchline">Community cannot be scheduled.</span>
-            </div>
+            <button onclick="copyLink(this)" class="share-btn">🔗 Share Observation</button>
         </article>
 
         <div class="submit-section">
-            <span class="submit-title">Witnessed a moment of peak vanity?</span>
-            <form action="https://formspree.io/f/xgokgkov" method="POST">
-                <textarea name="observation" placeholder="Describe the variance..."></textarea>
-                <button type="submit">Send to the Observer</button>
+            <div style="font-weight: 900; font-size: 1.2em;">WITNESSED A MOMENT OF PEAK VANITY?</div>
+            <form action="https://formspree.io/f/your-id" method="POST">
+                <textarea name="message" placeholder="Describe the variance..."></textarea><br>
+                <button type="submit" class="send-btn">Send to the Observer</button>
             </form>
         </div>
 
     </div>
 
     <footer>
-        <footer>
-    &copy; 2026 Variance & Vanity. All Rights Reserved. 
-    <br>
-    <span style="opacity: 0.6;">Content may not be reproduced without the express permission of The Observer.</span>
-</footer>
+        &copy; 2026 Variance & Vanity. All Rights Reserved. <br>
+        Content may not be reproduced without the express permission of The Observer.
     </footer>
+
+    <script>
+    function copyLink(btn) {
+        navigator.clipboard.writeText(window.location.href);
+        btn.innerText = "✓ Link Copied";
+        setTimeout(() => { btn.innerText = "🔗 Share Observation"; }, 2000);
+    }
+    </script>
 
 </body>
 </html>
